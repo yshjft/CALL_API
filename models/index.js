@@ -5,5 +5,6 @@ const db = {};
 
 const sequelize = new Sequelize(config.database, config.username, config.username, config.password)
 db.sequelize = sequelize;
+db.Sequelize = Sequelize
 
 module.exports = db;

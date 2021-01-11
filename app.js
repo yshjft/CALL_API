@@ -5,11 +5,13 @@ const morgan =  require('morgan')
 const path =  require('path')
 require('dotenv').config()
 
+const {sequelize} = require('./models')
 const authRouter = require('./routes/auth')
 
 const app = express()
 
 app.set('port', process.env.PORT || 8002)
+sequelize.sync()
 
 app.use(morgan('dev'))
 app.use(express.static(path.join(__dirname, 'public')))
