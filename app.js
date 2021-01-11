@@ -5,6 +5,8 @@ const morgan =  require('morgan')
 const path =  require('path')
 require('dotenv').config()
 
+const authRouter = require('./routes/auth')
+
 const app = express()
 
 app.set('port', process.env.PORT || 8002)
@@ -23,8 +25,10 @@ app.use(session({
         secure: false
     }
 }))
+app.use('/api/auth', authRouter)
 
 app.use((req, res, next)=>{
+    console.log('req = ', req)
     const err =  new Error('NOT FOUND')
     err.status=404
     next(err)
