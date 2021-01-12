@@ -5,8 +5,9 @@ const morgan =  require('morgan')
 const path =  require('path')
 require('dotenv').config()
 
-const {sequelize} = require('./models')
+
 const authRouter = require('./routes/auth')
+const {sequelize} = require('./models')
 
 const app = express()
 
