@@ -31,8 +31,15 @@ router.post('/join', async(req, res, next)=>{
     }
 })
 
-router.post('/login', (req, res, next)=>{
-    
+router.post('/login', async(req, res, next)=>{
+    const {email, password} = req.body
+
+    try{
+        const exUser = await User.findOne({where : {eamil: email}})
+
+    }catch(error){
+        return next(error)
+    }
 })
 
 module.exports=router
