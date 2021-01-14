@@ -1,5 +1,6 @@
 const express = require('express')
 const bcrypt = require('bcryptjs')
+const jwt = require('jsonwebtoken')
 const {User} = require('../models')
 
 const router = express.Router()
@@ -36,7 +37,36 @@ router.post('/login', async(req, res, next)=>{
 
     try{
         const exUser = await User.findOne({where : {eamil: email}})
+        if(exUser){
+            const isSame = await bcrypt.compare(password, exUser.password)
+            if(isSame){
+                //토큰 발급
+                const token = jwt.sign({
+                    id: exUser.id,
+                    email: exUser.email,
+                    nick: exUser.nick
+                }, process.env.JWT_SECRET, {
+                    expiresIn: '30s'
+                })
 
+                return res.status(200).json({
+                    status: 200,
+                    token
+                })
+                
+            }else{
+                return res.json({
+                    status: 'login Error',
+                    type: 'wrong password'
+                })
+            }
+        }else{
+            // 이게 맞는 응답 코드인지 모르겠다
+            return res.json({
+                status: 'login Error',
+                type: 'unregistered'
+            })
+        }
     }catch(error){
         return next(error)
     }
