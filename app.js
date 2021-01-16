@@ -11,7 +11,6 @@ const userRouter = require('./routes/user')
 const {sequelize} = require('./models')
 
 const app = express()
-
 app.set('port', process.env.PORT || 8002)
 sequelize.sync()
 
@@ -29,11 +28,11 @@ app.use(session({
         secure: false
     }
 }))
+
 app.use('/api/auth', authRouter)
 app.use('/api/user', userRouter)
 
 app.use((req, res, next)=>{
-    console.log('req = ', req)
     const err =  new Error('NOT FOUND')
     err.status=404
     next(err)

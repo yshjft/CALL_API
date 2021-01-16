@@ -1,4 +1,5 @@
 const express = require('express')
+const passport =  require('passport')
 const bcrypt = require('bcryptjs')
 const jwt = require('jsonwebtoken')
 const {User} = require('../models')
@@ -30,6 +31,7 @@ router.post('/join', async(req, res, next)=>{
     }catch(error){
         return next(error)
     }
+    
 })
 
 router.post('/login', async(req, res, next)=>{
@@ -46,14 +48,14 @@ router.post('/login', async(req, res, next)=>{
                     email: exUser.email,
                     nick: exUser.nick
                 }, process.env.JWT_SECRET, {
-                    expiresIn: '30s'
+                    expiresIn: '10s'
                 })
 
                 return res.status(200).json({
                     status: 200,
                     token
                 })
-                
+
             }else{
                 return res.json({
                     status: 'login Error',
@@ -61,7 +63,6 @@ router.post('/login', async(req, res, next)=>{
                 })
             }
         }else{
-            // 이게 맞는 응답 코드인지 모르겠다
             return res.json({
                 status: 'login Error',
                 type: 'unregistered'
