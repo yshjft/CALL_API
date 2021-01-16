@@ -17,3 +17,5 @@ router.get('/myData', verifyToken, async(req, res, next)=>{
         })
     }
 })
+
+module.exports=router

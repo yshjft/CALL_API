@@ -36,7 +36,7 @@ router.post('/login', async(req, res, next)=>{
     const {email, password} = req.body
 
     try{
-        const exUser = await User.findOne({where : {eamil: email}})
+        const exUser = await User.findOne({where : {email: email}})
         if(exUser){
             const isSame = await bcrypt.compare(password, exUser.password)
             if(isSame){
